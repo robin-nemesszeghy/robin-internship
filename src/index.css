@@ -10,3 +10,29 @@
 @import "./css/styles/style.css";
 @import "./css/colors/scheme-01.css";
 @import "./css/styles/coloring.css";
+
+/* ================================================== */
+/* AOS CONFLICT OVERRIDES                             */
+/* ================================================== */
+
+/* 1. Restore scroll coordinate tracking for AOS */
+html,
+body {
+  overflow-x: visible !important;
+}
+
+#wrapper {
+  overflow: visible !important;
+  overflow-x: hidden !important;
+}
+
+/* 2. Prevent global CSS transitions from fighting with AOS initial states */
+html:not(.no-js) [data-aos] {
+  transition-duration: 0ms !important;
+  /* I removed the transition-delay override here so AOS can stagger elements again! */
+}
+
+/* Let AOS take over the transition timing once the animation triggers */
+html:not(.no-js) [data-aos].aos-animate {
+  transition-duration: 800ms !important;
+}
