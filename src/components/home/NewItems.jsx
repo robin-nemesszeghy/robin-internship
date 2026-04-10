@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import OwlCarousel from "react-owl-carousel";
 import Countdown from "../UI/Countdown";
+import Skeleton from "../UI/Skeleton"; // Imported Skeleton component
 import "jquery";
 window.$ = window.jQuery = require("jquery");
 
@@ -42,7 +43,8 @@ const NewItems = () => {
 
   return (
     <section id="section-items" className="no-bottom">
-      <div className="container">
+      {/* Added fade-in to the container wrapper */}
+      <div className="container" data-aos="fade-in" data-aos-delay="100">
         <div className="row">
           <div className="col-lg-12">
             <div className="text-center">
@@ -52,7 +54,7 @@ const NewItems = () => {
           </div>
 
           {loading ? (
-            // Skeleton Loading State
+            // Skeleton Loading State updated to use Skeleton component
             <>
               {new Array(4).fill(0).map((_, index) => (
                 <div
@@ -61,38 +63,20 @@ const NewItems = () => {
                 >
                   <div className="nft__item">
                     <div className="author_list_pp">
-                      <div
-                        className="skeleton-box"
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                          borderRadius: "50%",
-                        }}
-                      ></div>
+                      <Skeleton width="50px" height="50px" borderRadius="50%" />
                     </div>
                     <div className="nft__item_wrap">
-                      <div
-                        className="skeleton-box"
-                        style={{
-                          width: "100%",
-                          height: "200px",
-                          borderRadius: "8px",
-                        }}
-                      ></div>
+                      <Skeleton
+                        width="100%"
+                        height="200px"
+                        borderRadius="8px"
+                      />
                     </div>
                     <div className="nft__item_info">
-                      <div
-                        className="skeleton-box"
-                        style={{
-                          width: "100px",
-                          height: "20px",
-                          marginBottom: "8px",
-                        }}
-                      ></div>
-                      <div
-                        className="skeleton-box"
-                        style={{ width: "50px", height: "15px" }}
-                      ></div>
+                      <div style={{ marginBottom: "8px" }}>
+                        <Skeleton width="100px" height="20px" />
+                      </div>
+                      <Skeleton width="50px" height="15px" />
                     </div>
                   </div>
                 </div>

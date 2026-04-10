@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import OwlCarousel from "react-owl-carousel";
+import Skeleton from "../UI/Skeleton";
 import "jquery";
 window.$ = window.jQuery = require("jquery");
 
@@ -41,7 +42,7 @@ const HotCollections = () => {
 
   return (
     <section id="section-collections" className="no-bottom">
-      <div className="container">
+      <div className="container" data-aos="fade-in" data-aos-delay="100">
         <div className="row">
           <div className="col-lg-12">
             <div className="text-center">
@@ -51,7 +52,6 @@ const HotCollections = () => {
           </div>
 
           {loading ? (
-            // Skeleton Loading State
             <>
               {new Array(4).fill(0).map((_, index) => (
                 <div
@@ -60,46 +60,24 @@ const HotCollections = () => {
                 >
                   <div className="nft_coll">
                     <div className="nft_wrap">
-                      {/* Image Skeleton */}
-                      <div
-                        className="skeleton-box"
-                        style={{ width: "100%", height: "200px" }}
-                      ></div>
+                      <Skeleton width="100%" height="200px" />
                     </div>
                     <div className="nft_coll_pp">
-                      {/* Profile Picture Skeleton */}
-                      <div
-                        className="skeleton-box"
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                          borderRadius: "50%",
-                        }}
-                      ></div>
+                      <Skeleton width="50px" height="50px" borderRadius="50%" />
                       <i className="fa fa-check"></i>
                     </div>
                     <div className="nft_coll_info">
-                      {/* Title & Code Skeletons */}
-                      <div
-                        className="skeleton-box"
-                        style={{ width: "100px", height: "20px" }}
-                      ></div>
+                      <Skeleton width="100px" height="20px" />
                       <br />
-                      <div
-                        className="skeleton-box"
-                        style={{
-                          width: "60px",
-                          height: "15px",
-                          marginTop: "5px",
-                        }}
-                      ></div>
+                      <div style={{ marginTop: "5px" }}>
+                        <Skeleton width="60px" height="15px" />
+                      </div>
                     </div>
                   </div>
                 </div>
               ))}
             </>
           ) : collections.length > 0 ? (
-            // Actual Content State
             <div className="col-lg-12">
               <OwlCarousel className="owl-theme" {...owlOptions}>
                 {collections.map((collection, index) => (

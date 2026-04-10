@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Countdown from "../UI/Countdown"; // Reuses the Countdown UI component
+import Countdown from "../UI/Countdown";
+import Skeleton from "../UI/Skeleton"; // Imported Skeleton component
 
 const ExploreItems = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [visibleCount, setVisibleCount] = useState(8); // Starts by showing 8 items
-  const [filter, setFilter] = useState(""); // Tracks the dropdown selection
+  const [visibleCount, setVisibleCount] = useState(8);
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    // Whenever the filter changes, fetch new data and reset the view
     const fetchExploreItems = async () => {
       setLoading(true);
-      setVisibleCount(8); // Resets back to 8 visible items when a new filter is applied
+      setVisibleCount(8);
 
       try {
-        // Dynamically builds the endpoint based on whether a filter is selected
         const endpoint = filter
           ? `https://us-central1-nft-cloud-functions.cloudfunctions.net/explore?filter=${filter}`
           : "https://us-central1-nft-cloud-functions.cloudfunctions.net/explore";
@@ -31,16 +30,16 @@ const ExploreItems = () => {
     };
 
     fetchExploreItems();
-  }, [filter]); // Dependency array: Re-run this effect when `filter` changes
+  }, [filter]);
 
   const handleLoadMore = () => {
-    setVisibleCount((prev) => prev + 4); // Loads 4 more items each time
+    setVisibleCount((prev) => prev + 4);
   };
 
   return (
     <>
-      <div>
-        {/* Sorting Dropdown */}
+      {/* Added fade-in to the sorting dropdown */}
+      <div data-aos="fade-in">
         <select
           id="filter-items"
           defaultValue=""
@@ -60,49 +59,32 @@ const ExploreItems = () => {
             key={index}
             className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
             style={{ display: "block", backgroundSize: "cover" }}
+            data-aos="fade-in" // Added fade-in to skeleton cards
           >
             <div className="nft__item">
               <div className="author_list_pp">
-                <div
-                  className="skeleton-box"
-                  style={{ width: "50px", height: "50px", borderRadius: "50%" }}
-                ></div>
+                <Skeleton width="50px" height="50px" borderRadius="50%" />
               </div>
               <div className="nft__item_wrap">
-                <div
-                  className="skeleton-box"
-                  style={{
-                    width: "100%",
-                    height: "200px",
-                    borderRadius: "8px",
-                  }}
-                ></div>
+                <Skeleton width="100%" height="200px" borderRadius="8px" />
               </div>
               <div className="nft__item_info">
-                <div
-                  className="skeleton-box"
-                  style={{
-                    width: "100px",
-                    height: "20px",
-                    marginBottom: "8px",
-                  }}
-                ></div>
-                <div
-                  className="skeleton-box"
-                  style={{ width: "50px", height: "15px" }}
-                ></div>
+                <div style={{ marginBottom: "8px" }}>
+                  <Skeleton width="100px" height="20px" />
+                </div>
+                <Skeleton width="50px" height="15px" />
               </div>
             </div>
           </div>
         ))
       ) : items.length > 0 ? (
         // --- ACTUAL DATA STATE ---
-        // Uses .slice(0, visibleCount) to only render up to the limit
         items.slice(0, visibleCount).map((item, index) => (
           <div
             key={item.id || index}
             className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
             style={{ display: "block", backgroundSize: "cover" }}
+            data-aos="fade-in" // Added fade-in to data cards
           >
             <div className="nft__item">
               <div className="author_list_pp">
@@ -116,7 +98,6 @@ const ExploreItems = () => {
                 </Link>
               </div>
 
-              {/* Dynamic Timer using the Countdown reusable component */}
               {item.expiryDate && <Countdown expiryDate={item.expiryDate} />}
 
               <div className="nft__item_wrap">
@@ -160,21 +141,22 @@ const ExploreItems = () => {
         ))
       ) : (
         // --- EMPTY STATE ---
-        <div className="col-md-12 text-center">
+        <div className="col-md-12 text-center" data-aos="fade-in">
           <h4>No items found.</h4>
         </div>
       )}
 
       {/* Load More Button */}
-      {/* Only show this button if the visible count is less than the total items available */}
       {!loading && visibleCount < items.length && (
-        <div className="col-md-12 text-center">
+        <div className="col-md-12 text-center" data-aos="fade-up">
+          {" "}
+          {/* Added fade-up to load more button */}
           <Link
             to=""
             id="loadmore"
             className="btn-main lead"
             onClick={(e) => {
-              e.preventDefault(); // Prevents page jump
+              e.preventDefault();
               handleLoadMore();
             }}
           >
